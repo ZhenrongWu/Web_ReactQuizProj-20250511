@@ -1,0 +1,386 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #000;
+}
+
+.app-container {
+  position: relative;
+  max-width: 430px;
+  height: 100vh;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #1a103c 0%, #0e0a24 100%);
+  color: white;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  height: 60px;
+}
+
+.back-button, .close-button {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px 25px;
+  position: relative;
+  overflow-y: auto;
+  scrollbar-width: none; 
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+.content::before {
+  content: '';
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(60, 0, 136, 0.2) 0%, rgba(0, 65, 130, 0.2) 100%);
+  z-index: -1;
+}
+
+.content::after {
+  content: '';
+  position: fixed;
+  top: 30%;
+  left: -100%;
+  width: 300%;
+  height: 200px;
+  background: linear-gradient(90deg, transparent, rgba(114, 137, 218, 0.15), transparent);
+  transform: rotate(-30deg);
+  animation: lightSweep 8s infinite linear;
+  z-index: -1;
+}
+
+@keyframes lightSweep {
+  0% { transform: translateX(-30%) rotate(-30deg); }
+  100% { transform: translateX(30%) rotate(-30deg); }
+}
+
+.footer {
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.input-hint {
+  width: 80%;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.input-hint:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.input-hint:active {
+  transform: scale(0.98);
+}
+
+.hint-text {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+.logo-text {
+  font-size: 20px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.logo-subtitle {
+  font-size: 12px;
+  letter-spacing: 3px;
+  margin-top: 3px;
+}
+
+.welcome-text {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.welcome-line {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 3px;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 15px;
+  width: 100%;
+  padding-bottom: 15px;
+}
+
+.cards-container:not(.visible) .card-content svg path,
+.cards-container:not(.visible) .card-content svg circle {
+  animation: none;
+  opacity: 0;
+}
+
+.cards-container:not(.visible) .card-label {
+  animation: none;
+  opacity: 0;
+}
+
+.cards-container.visible .card-content svg path,
+.cards-container.visible .card-content svg circle {
+  animation-play-state: running;
+}
+
+.cards-container.visible .card-label {
+  animation-play-state: running;
+}
+
+.card {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  aspect-ratio: 1/1.2;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 40px;
+}
+
+.card-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.card-svg {
+  display: block;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.card-label {
+  position: absolute;
+  bottom: 10px;
+  width: 80%;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  animation: fadeIn 0.5s ease-in-out 2s forwards;
+  opacity: 0;
+}
+
+.camera-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.camera-button-inner {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.card-content svg path,
+.card-content svg circle {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: drawLine 2s ease-in-out forwards;
+  opacity: 0;
+}
+
+.card:nth-child(1) .card-content svg path:nth-child(1) {
+  animation-name: drawLeaf;
+  animation-delay: 0.2s;
+}
+
+.card:nth-child(1) .card-content svg path:nth-child(2) {
+  animation-name: drawLeaf;
+  animation-delay: 0.7s;
+}
+
+.card:nth-child(2) .card-content svg path {
+  animation-name: drawFire;
+  animation-delay: 0.2s;
+}
+
+.card:nth-child(3) .card-content svg path {
+  animation-name: drawLine;
+  animation-delay: 0.2s;
+}
+
+.card:nth-child(4) .card-content svg path:nth-child(1) {
+  animation-name: drawWave;
+  animation-delay: 0.2s;
+}
+
+.card:nth-child(4) .card-content svg path:nth-child(2) {
+  animation-name: drawWave;
+  animation-delay: 0.5s;
+}
+
+.card:nth-child(4) .card-content svg path:nth-child(3) {
+  animation-name: drawWave;
+  animation-delay: 0.8s;
+}
+
+.card:nth-child(4) .card-content svg path:nth-child(4) {
+  animation-name: drawWave;
+  animation-delay: 1.1s;
+}
+
+.card:nth-child(4) .card-content svg path:nth-child(5) {
+  animation-name: drawWave;
+  animation-delay: 1.4s;
+}
+
+.card:nth-child(4) .card-content svg path:nth-child(6) {
+  animation-name: drawWave;
+  animation-delay: 1.7s;
+}
+
+.card:nth-child(4) .card-content svg path:nth-child(7) {
+  animation-name: drawWave;
+  animation-delay: 2.0s;
+}
+
+@keyframes drawLine {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 300;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawLeaf {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawFire {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawWave {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 300;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
