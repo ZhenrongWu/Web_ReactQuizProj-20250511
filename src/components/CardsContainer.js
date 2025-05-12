@@ -16,6 +16,7 @@ const CardsContainer = () => {
     {
       id: 1,
       label: "靈力",
+      position: "top-left",
       svgPath: (
         <>
           <g transform="scale(0.8) translate(25, 25)">
@@ -58,6 +59,7 @@ const CardsContainer = () => {
     {
       id: 2,
       label: "樂觀",
+      position: "top-right",
       svgPath: (
         <>
           <g transform="scale(2) translate(8, 8)">
@@ -74,6 +76,7 @@ const CardsContainer = () => {
     {
       id: 3,
       label: "洞悉",
+      position: "bottom-left",
       svgPath: (
         <>
           <g transform="scale(2.5) translate(5, 5)">
@@ -92,6 +95,7 @@ const CardsContainer = () => {
     {
       id: 4,
       label: "執著",
+      position: "bottom-right",
       svgPath: (
         <>
           <g transform="scale(0.15) translate(-30, 30)">
@@ -180,7 +184,12 @@ const CardsContainer = () => {
   return (
     <div className={containerClassName}>
       {cardData.map((card) => (
-        <Card key={card.id} svgPath={card.svgPath} label={card.label} />
+        <Card
+          key={card.id}
+          svgPath={card.svgPath}
+          label={card.label}
+          position={card.position}
+        />
       ))}
     </div>
   );

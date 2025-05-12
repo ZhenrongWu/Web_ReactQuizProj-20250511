@@ -1,8 +1,10 @@
 import React from "react";
 
-const Card = ({ svgPath, label }) => {
+const Card = ({ svgPath, label, position }) => {
+  const cardClassName = `card card-${position}`;
+
   return (
-    <div className="card">
+    <div className={cardClassName}>
       <div className="card-content">
         <svg
           width="100%"
