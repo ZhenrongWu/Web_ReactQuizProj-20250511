@@ -14,7 +14,7 @@ body {
   max-width: 430px;
   height: 100vh;
   margin: 0 auto;
-  background: linear-gradient(135deg, #1a103c 0%, #0e0a24 100%);
+  background: #0e0a24;
   color: white;
   overflow: hidden;
   display: flex;
@@ -57,35 +57,6 @@ body {
 
 .content::-webkit-scrollbar {
   display: none;
-}
-
-.content::before {
-  content: '';
-  position: fixed;
-  top: 60px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(60, 0, 136, 0.2) 0%, rgba(0, 65, 130, 0.2) 100%);
-  z-index: -1;
-}
-
-.content::after {
-  content: '';
-  position: fixed;
-  top: 30%;
-  left: -100%;
-  width: 300%;
-  height: 200px;
-  background: linear-gradient(90deg, transparent, rgba(114, 137, 218, 0.15), transparent);
-  transform: rotate(-30deg);
-  animation: lightSweep 8s infinite linear;
-  z-index: -1;
-}
-
-@keyframes lightSweep {
-  0% { transform: translateX(-30%) rotate(-30deg); }
-  100% { transform: translateX(30%) rotate(-30deg); }
 }
 
 .footer {
@@ -157,6 +128,7 @@ body {
 }
 
 .cards-container {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
@@ -164,6 +136,7 @@ body {
   width: 100%;
   margin: 0 auto;
   padding-bottom: 15px;
+  min-height: 300px;
 }
 
 .cards-container:not(.visible) .card {
@@ -214,6 +187,69 @@ body {
 .cards-container.visible .card-bottom-left,
 .cards-container.visible .card-bottom-right {
   transform: translate(0, 0) !important;
+}
+
+/* 選中卡片效果 */
+.cards-container.has-selected-card .card:not(.card-selected) {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+  pointer-events: none;
+}
+
+.card-selected {
+  border-color: #3498ff !important;
+  box-shadow: 0 0 15px rgba(52, 152, 255, 0.6);
+  z-index: 10;
+}
+
+/* 設定卡片移動到中心的效果 */
+.cards-container.card-centered .card-selected {
+  position: relative;
+  transform: translate(calc(50% - 50%), calc(50% - 50%)) scale(1.3) !important;
+  transition: all 0.8s ease-out 0.5s;
+  border: 2px solid #3498ff !important;
+  box-shadow: 0 0 20px rgba(52, 152, 255, 0.8);
+  z-index: 100;
+}
+
+/* 卡片移動到幾何中心的位移調整（確保四角卡片都能精確到中心） */
+.cards-container.card-centered .card-top-left.card-selected {
+  transform: translate(calc(50% + 50px), calc(50% + 50px)) scale(1.3) !important;
+  transition: all 0.8s ease-out 0.5s;
+}
+
+.cards-container.card-centered .card-top-right.card-selected {
+  transform: translate(calc(-50% - 50px), calc(50% + 50px)) scale(1.3) !important;
+  transition: all 0.8s ease-out 0.5s;
+}
+
+.cards-container.card-centered .card-bottom-left.card-selected {
+  transform: translate(calc(50% + 50px), calc(-50% - 50px)) scale(1.3) !important;
+  transition: all 0.8s ease-out 0.5s;
+}
+
+.cards-container.card-centered .card-bottom-right.card-selected {
+  transform: translate(calc(-50% - 50px), calc(-50% - 50px)) scale(1.3) !important;
+  transition: all 0.8s ease-out 0.5s;
+}
+
+/* 滑鼠懸停時也有藍色高亮效果 */
+.card-hovered {
+  border-color: #00CFFF !important;
+  box-shadow: 0 0 15px rgba(0, 207, 255, 0.6);
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
+.card-hovered .card-content svg path,
+.card-hovered .card-content svg circle {
+  stroke: #00CFFF !important;
+}
+
+.card-hovered .card-label {
+  background: #00CFFF !important;
+  color: #000 !important;
+  border: 1px solid #00CFFF !important;
 }
 
 .cards-container:not(.visible) .card-content svg path,
@@ -286,63 +322,74 @@ body {
 .card-content svg circle {
   stroke-dasharray: 300;
   stroke-dashoffset: 300;
-  animation: drawLine 2s ease-in-out forwards;
+  animation: drawLine 3.5s ease-in-out forwards;
   opacity: 0;
 }
 
 .card:nth-child(1) .card-content svg path:nth-child(1) {
   animation-name: drawLeaf;
   animation-delay: 0.2s;
+  animation-duration: 3.5s;
 }
 
 .card:nth-child(1) .card-content svg path:nth-child(2) {
   animation-name: drawLeaf;
   animation-delay: 0.7s;
+  animation-duration: 3.5s;
 }
 
 .card:nth-child(2) .card-content svg path {
   animation-name: drawFire;
-  animation-delay: 0.2s;
+  animation-delay: 0.6s;
+  animation-duration: 4.5s;
 }
 
 .card:nth-child(3) .card-content svg path {
   animation-name: drawLine;
-  animation-delay: 0.2s;
+  animation-delay: 0.6s;
+  animation-duration: 4.5s;
 }
 
 .card:nth-child(4) .card-content svg path:nth-child(1) {
   animation-name: drawWave;
   animation-delay: 0.2s;
+  animation-duration: 3.5s;
 }
 
 .card:nth-child(4) .card-content svg path:nth-child(2) {
   animation-name: drawWave;
   animation-delay: 0.5s;
+  animation-duration: 3.5s;
 }
 
 .card:nth-child(4) .card-content svg path:nth-child(3) {
   animation-name: drawWave;
   animation-delay: 0.8s;
+  animation-duration: 3.5s;
 }
 
 .card:nth-child(4) .card-content svg path:nth-child(4) {
   animation-name: drawWave;
   animation-delay: 1.1s;
+  animation-duration: 3.5s;
 }
 
 .card:nth-child(4) .card-content svg path:nth-child(5) {
   animation-name: drawWave;
   animation-delay: 1.4s;
+  animation-duration: 3.5s;
 }
 
 .card:nth-child(4) .card-content svg path:nth-child(6) {
   animation-name: drawWave;
   animation-delay: 1.7s;
+  animation-duration: 3.5s;
 }
 
 .card:nth-child(4) .card-content svg path:nth-child(7) {
   animation-name: drawWave;
   animation-delay: 2.0s;
+  animation-duration: 3.5s;
 }
 
 @keyframes drawLine {
@@ -418,4 +465,16 @@ body {
   100% {
     opacity: 1;
   }
+}
+
+/* 卡片被選取時，SVG線條、label底色與文字顏色都變藍色 */
+.card-selected .card-content svg path,
+.card-selected .card-content svg circle {
+  stroke: #00CFFF !important;
+}
+
+.card-selected .card-label {
+  background: #00CFFF !important;
+  color: #000 !important;
+  border: 1px solid #00CFFF !important;
 }

@@ -1,10 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Card = ({ svgPath, label, position }) => {
-  const cardClassName = `card card-${position}`;
+const Card = ({
+  svgPath,
+  label,
+  position,
+  onCardSelect,
+  isSelected,
+  style = {},
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const cardClassName = `card card-${position} ${
+    isSelected ? "card-selected" : ""
+  } ${isHovered ? "card-hovered" : ""}`;
+
+  const handleClick = (e) => {
+    e.stopPropagation();
+    if (onCardSelect) onCardSelect(position);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   return (
-    <div className={cardClassName}>
+    <div
+      className={cardClassName}
+      onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={style}
+    >
       <div className="card-content">
         <svg
           width="100%"

@@ -1,21 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Card from "./Card";
 
 const CardsContainer = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [isCardCentered, setIsCardCentered] = useState(false);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 100);
-
+    const timer = setTimeout(() => setIsVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleCardSelect = (position) => {
+    if (selectedCard) return;
+    setSelectedCard(position);
+
+    // 增加延遲時間，確保其他卡片先消失完全後，被選中的卡片才開始移動
+    setTimeout(() => {
+      // 用一個簡單直接的方法：使用CSS來控制卡片移動到中心
+      setIsCardCentered(true);
+    }, 300); // 增加延遲時間
+  };
 
   const cardData = [
     {
       id: 1,
-      label: "靈力",
+      label: "毅力",
       position: "top-left",
       svgPath: (
         <>
@@ -75,7 +86,7 @@ const CardsContainer = () => {
     },
     {
       id: 3,
-      label: "洞悉",
+      label: "積極",
       position: "bottom-left",
       svgPath: (
         <>
@@ -179,18 +190,26 @@ const CardsContainer = () => {
     },
   ];
 
-  const containerClassName = `cards-container ${isVisible ? "visible" : ""}`;
+  const containerClassName = `cards-container${isVisible ? " visible" : ""}${
+    selectedCard ? " has-selected-card" : ""
+  }${isCardCentered ? " card-centered" : ""}`;
 
   return (
-    <div className={containerClassName}>
-      {cardData.map((card) => (
-        <Card
-          key={card.id}
-          svgPath={card.svgPath}
-          label={card.label}
-          position={card.position}
-        />
-      ))}
+    <div className={containerClassName} ref={containerRef}>
+      {cardData.map((card) => {
+        const isSelected = selectedCard === card.position;
+        return (
+          <Card
+            key={card.id}
+            svgPath={card.svgPath}
+            label={card.label}
+            position={card.position}
+            onCardSelect={handleCardSelect}
+            isSelected={isSelected}
+            style={isSelected ? {} : {}}
+          />
+        );
+      })}
     </div>
   );
 };
