@@ -478,3 +478,167 @@ body {
   color: #000 !important;
   border: 1px solid #00CFFF !important;
 }
+
+/* OptionPanel 選項畫面樣式 */
+.option-panel {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(20, 20, 40, 0.95);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  padding: 28px 0 18px 0;
+  z-index: 200;
+  min-width: 270px;
+  max-width: 90vw;
+  text-align: center;
+  animation: fadeIn 0.7s;
+}
+.option-title {
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  line-height: 1.6;
+}
+.option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+
+/* 自訂下拉選單樣式 */
+.custom-dropdown-panel {
+  position: relative;
+  width: 320px;
+  max-width: 90vw;
+  margin: 0 auto 24px auto;
+  z-index: 300;
+}
+.custom-dropdown-selected {
+  position: relative;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 40px;
+  padding: 18px 40px;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 20px #3cf, 0 0 40px #09f inset;
+  transition: border 0.2s, box-shadow 0.2s;
+  user-select: none;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.custom-dropdown-selected.open {
+  border-color: #00CFFF;
+  box-shadow: 0 0 24px #00CFFF, 0 0 40px #09f inset;
+}
+.dropdown-circle {
+  position: absolute;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  background: #101020;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+}
+.dropdown-circle.left { left: -20px; }
+.dropdown-circle.right { right: -20px; }
+.dropdown-arrow {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #b3b3ff;
+  font-size: 16px;
+  pointer-events: none;
+}
+.custom-dropdown-options {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 10px);
+  width: 100%;
+  /* background: transparent; */
+  background: none;
+  border-radius: 30px;
+  box-shadow: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  opacity: 1;
+  max-height: 500px;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition: opacity 0.3s, max-height 0.4s, transform 0.3s;
+  z-index: 999;
+}
+.dropdown-playon {
+  color: #b3b3ff;
+  font-size: 13px;
+  letter-spacing: 2px;
+  margin: 18px 0 8px 0;
+  text-align: center;
+  font-family: 'Montserrat', 'Noto Sans TC', Arial, sans-serif;
+  font-weight: 500;
+}
+
+/* 選項外觀：透明背景、細白線邊框、圓角，hover/selected 為藍色描邊+發光 */
+.custom-dropdown-option-border {
+  width: 100%;
+  margin: 0 auto 0 auto;
+  background: linear-gradient(90deg, #1a237e 0%, #0d47a1 100%);
+  border: 1.5px solid #00eaff;
+  border-radius: 16px;
+  padding: 16px 0;
+  color: #00eaff;
+  font-size: 20px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: border 0.2s, box-shadow 0.2s, color 0.2s, background 0.3s;
+  box-shadow: 0 0 16px 4px #00eaff80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeInOption 0.7s forwards;
+}
+
+@keyframes fadeInOption {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.custom-dropdown-option-border.selected,
+.custom-dropdown-option-border:hover {
+  border: 2px solid #00CFFF;
+  box-shadow: 0 0 32px 8px #00eaffcc;
+  color: #fff;
+  background: linear-gradient(90deg, #0d47a1 0%, #1a237e 100%);
+}
+
+.custom-dropdown-option-text {
+  width: 100%;
+  text-align: center;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  opacity: 0;
+  animation: fadeInText 0.8s forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes fadeInText {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

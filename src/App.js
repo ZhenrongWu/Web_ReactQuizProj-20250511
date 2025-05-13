@@ -8,6 +8,7 @@ import EnterButton from "./components/EnterButton";
 
 const App = () => {
   const [showCards, setShowCards] = useState(false);
+  const [showOption, setShowOption] = useState(false);
 
   const handleShowCards = () => {
     setShowCards(true);
@@ -15,6 +16,7 @@ const App = () => {
 
   const handleBack = () => {
     setShowCards(false);
+    setShowOption(false);
   };
 
   return (
@@ -25,8 +27,8 @@ const App = () => {
         {showCards ? (
           <>
             <Logo />
-            <WelcomeText />
-            <CardsContainer />
+            {!showOption && <WelcomeText />}
+            <CardsContainer setShowOption={setShowOption} />
           </>
         ) : null}
       </div>

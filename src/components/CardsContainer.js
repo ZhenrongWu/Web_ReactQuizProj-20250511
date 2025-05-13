@@ -1,26 +1,38 @@
 import React, { useState, useEffect, useRef } from "react";
 import Card from "./Card";
+import CustomDropdown from "./CustomDropdown";
 
-const CardsContainer = () => {
+const optionList = ["無懼未來的自己", "勇於挑戰的自己", "珍惜每天的自己"];
+
+const CardsContainer = ({ setShowOption }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [isCardCentered, setIsCardCentered] = useState(false);
+  const [showOption, setShowOptionLocal] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
   const containerRef = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
+    setShowOption(false); // 初始化時通知父層
     return () => clearTimeout(timer);
-  }, []);
+  }, [setShowOption]);
 
   const handleCardSelect = (position) => {
     if (selectedCard) return;
     setSelectedCard(position);
-
-    // 增加延遲時間，確保其他卡片先消失完全後，被選中的卡片才開始移動
     setTimeout(() => {
-      // 用一個簡單直接的方法：使用CSS來控制卡片移動到中心
       setIsCardCentered(true);
-    }, 300); // 增加延遲時間
+      setTimeout(() => {
+        setShowOptionLocal(true);
+        setShowOption(true); // 通知父層顯示下拉選單
+      }, 2500);
+    }, 300);
+  };
+
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    alert(`你選擇了：${option}`);
   };
 
   const cardData = [
@@ -196,20 +208,38 @@ const CardsContainer = () => {
 
   return (
     <div className={containerClassName} ref={containerRef}>
-      {cardData.map((card) => {
-        const isSelected = selectedCard === card.position;
-        return (
-          <Card
-            key={card.id}
-            svgPath={card.svgPath}
-            label={card.label}
-            position={card.position}
-            onCardSelect={handleCardSelect}
-            isSelected={isSelected}
-            style={isSelected ? {} : {}}
-          />
-        );
-      })}
+      {showOption ? (
+        <div className="option-panel">
+          <div className="option-title">
+            步行在異世界的走廊，
+            <br />
+            您想成為的樣貌是？
+          </div>
+          <div className="option-list">
+            <CustomDropdown
+              options={optionList}
+              value={selectedOption}
+              onChange={handleOptionSelect}
+              placeholder="請選擇..."
+            />
+          </div>
+        </div>
+      ) : (
+        cardData.map((card) => {
+          const isSelected = selectedCard === card.position;
+          return (
+            <Card
+              key={card.id}
+              svgPath={card.svgPath}
+              label={card.label}
+              position={card.position}
+              onCardSelect={handleCardSelect}
+              isSelected={isSelected}
+              style={isSelected ? {} : {}}
+            />
+          );
+        })
+      )}
     </div>
   );
 };
